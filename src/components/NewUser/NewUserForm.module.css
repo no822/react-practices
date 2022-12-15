@@ -1,0 +1,29 @@
+.newUserForm {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 1em;
+}
+
+.newUserForm__input label {
+    font-weight: bold;
+}
+
+.newUserForm__input input {
+    width: 100%;
+}
+
+.newUserForm__actions {
+    margin-top: 5px;
+}
+
+.newUserForm__action {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+}

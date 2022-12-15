@@ -1,0 +1,6 @@
+.userItem__container {
+    border: 1px solid gray;
+    padding: 0.5rem;
+    margin: 1em;
+    cursor: pointer;
+}
