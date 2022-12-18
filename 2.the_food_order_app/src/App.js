@@ -1,7 +1,7 @@
 import './App.css';
 import Header from "./components/Header/Header";
 import MealsSummary from "./components/MealsSummary/MealsSummary";
-import meals from './data/dummy-meals';
+import dummy_meals from './data/dummy-meals';
 import AvailableMeals from "./components/Meals/AvailableMeals";
 
 // OBJECTIVE: 음식 주문 앱
@@ -30,7 +30,7 @@ function App() {
         <div className='App'>
             <Header/>
             <MealsSummary/>
-            <AvailableMeals/>
+            <AvailableMeals meals={dummy_meals}/>
         </div>
     );
 }
