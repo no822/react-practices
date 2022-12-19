@@ -18,6 +18,7 @@ const AvailableMeals = (props) => {
                         price={meal.price}
                     />
                 )}
+
             </Card>
         </div>
     );

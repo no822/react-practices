@@ -1,9 +1,10 @@
+import React, {useState} from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
 import MealsSummary from "./components/MealsSummary/MealsSummary";
-import dummy_meals from './data/dummy-meals';
 import AvailableMeals from "./components/Meals/AvailableMeals";
 import {CartProvider} from "./context/cartContext";
+
 
 // OBJECTIVE: 음식 주문 앱
 
@@ -22,14 +23,17 @@ import {CartProvider} from "./context/cartContext";
 // - 1.2 카트 그룹: <Cart /> - <CartItem />
 // - 1.3 상품 리스트 그룹: <AvailableMeals /> - <MealItem /> - <MealItemForm /> - <Input />
 // - 1.4 Summary 그룹: <MealsSummary />
+
 // 2. 컴포넌트 구성하기
 // - 2.1 기본 레이아웃 짜기: 헤더 그룹, Summary 그룹 ✓
 // - 2.2 상품 리스트 그룹: meals 데이터를 입력받아서 리스트 렌더링 ✓
-// - 2.3 카트 그룹:
+// - 2.3 카트 그룹: contextAPI로 카트데이터 처리, 상품수량 추가 이벤트 핸들링
+// - 2.4 모달창 그룹: 레이아웃
 
 // contextApi, useReducer, useEffect
 
 function App() {
+
     return (
         <div className='App'>
             <CartProvider>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Input from '../UI/Input';
 import styles from './MealItemForm.module.css';
-import {useCartAction, useCartValue} from "../../context/cartContext";
+import {useCartAction} from "../../context/cartContext";
 
 const MealItemForm = (props) => {
     const [amount, setAmount] = useState(1);
@@ -15,6 +15,7 @@ const MealItemForm = (props) => {
     const submitHandler = (e) => {
         e.preventDefault();
         addCartItem(props.id, amount);
+        setAmount(1);
     }
 
     return (
