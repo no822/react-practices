@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './Cart.module.css';
 import CartItem from "./CartItem";
 
@@ -7,13 +7,14 @@ const Cart = (props) => {
         console.log('order');
     }
 
-    const totalPrice = (carts) => {
+    const totalPriceCalculator = (carts) => {
         return carts
-            .map(item => item.price)
+            .map(item => item.amount * item.price)
             .reduce((total, price) => {
-                return total + price
+                return parseFloat((total + price).toFixed(2));
             }, 0);
     }
+
 
     return (
         <>
@@ -32,7 +33,7 @@ const Cart = (props) => {
             </div>
             <div className={styles.total}>
                 <div>Total Amount</div>
-                <div>{totalPrice(props.carts)}</div>
+                <div>{totalPriceCalculator(props.carts)}</div>
             </div>
             <div className={styles.actions}>
                 <button onClick={props.closeModal} className={styles.buttonAlt}>Close</button>
