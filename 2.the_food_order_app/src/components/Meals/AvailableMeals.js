@@ -7,6 +7,13 @@ import {useCartValue} from "../../context/cartContext";
 const AvailableMeals = () => {
     const {cart, isLoading} = useCartValue();
     if (isLoading) return <div className={styles.loading}>Loading...</div>;
+    if (cart.length === 0) {
+        return (
+            <Card style={{margin: '2rem auto', maxWidth: '90%'}}>
+                <div className={styles.empty}>Item list is empty</div>
+            </Card>
+        );
+    }
     return (
         <div className={styles.meals}>
             <Card>
