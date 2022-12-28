@@ -12,6 +12,18 @@
     padding: 0;
 }
 
+.loading {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    text-align: center;
+    padding: 1rem 2rem;
+    color: black;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 @keyframes meals-appear {
     from {
         opacity: 0;

@@ -4,6 +4,7 @@
 
 html, body, #root {
     height: 100%;
+
 }
 
 body {
@@ -12,10 +13,10 @@ body {
 }
 
 
-#root, #__next {
+#root {
     isolation: isolate;
 }
 
-.App {
+.App, #root {
     background-color: #1f1f1f;
 }

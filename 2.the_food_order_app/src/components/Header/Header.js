@@ -8,7 +8,7 @@ import {useCartValue, useCartAction} from "../../context/cartContext";
 
 const Header = (props) => {
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const mealItems = useCartValue();
+    const {cart: mealItems} = useCartValue();
     const {addCartItem, removeCartItem} = useCartAction();
 
     const openModal = () => {

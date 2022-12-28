@@ -10,6 +10,7 @@ const CartItem = (props) => {
     const removeSingleItem = () => {
         props.onRemove(props.id);
     }
+
     return (
         <li className={styles['cart-item']}>
             <div>

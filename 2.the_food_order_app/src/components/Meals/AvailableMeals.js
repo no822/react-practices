@@ -4,8 +4,9 @@ import styles from './AvailableMeals.module.css';
 import MealItem from "./MealItem";
 import {useCartValue} from "../../context/cartContext";
 
-const AvailableMeals = (props) => {
-    const cart = useCartValue();
+const AvailableMeals = () => {
+    const {cart, isLoading} = useCartValue();
+    if (isLoading) return <div className={styles.loading}>Loading...</div>;
     return (
         <div className={styles.meals}>
             <Card>
@@ -18,7 +19,6 @@ const AvailableMeals = (props) => {
                         price={meal.price}
                     />
                 )}
-
             </Card>
         </div>
     );
