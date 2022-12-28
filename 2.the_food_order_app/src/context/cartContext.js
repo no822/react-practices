@@ -10,7 +10,7 @@ export const CartProvider = (props) => {
     useEffect(() => {
         const fetchMeals = async () => {
             setIsLoading(true);
-            const meals = await fetch('https://order-meal-react-default-rtdb.firebaseio.com/react-meal/meals.json');
+            const meals = await fetch(process.env.REACT_APP_URL);
             const data = await meals.json();
 
             const loadedMeals = [];
