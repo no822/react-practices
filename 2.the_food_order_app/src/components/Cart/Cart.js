@@ -1,10 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import styles from './Cart.module.css';
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 const Cart = (props) => {
-    const orderSubmitHandler = () => {
+    const [isCheckout, setIsCheckout] = useState(false);
+
+    const hasItem = props.carts.length !== 0;
+
+    const orderHandler = () => {
         console.log('order');
+        setIsCheckout(true);
     }
 
     const totalPriceCalculator = (carts) => {
@@ -15,6 +21,13 @@ const Cart = (props) => {
             }, 0);
     }
 
+
+    const modalActions = (
+        <div className={styles.actions}>
+            <button onClick={props.closeModal} className={styles.buttonAlt}>Close</button>
+            {hasItem && <button onClick={orderHandler} className={styles.button}>Order</button>}
+        </div>
+    );
 
     return (
         <>
@@ -35,11 +48,8 @@ const Cart = (props) => {
                 <div>Total Amount</div>
                 <div>{totalPriceCalculator(props.carts)}</div>
             </div>
-            <div className={styles.actions}>
-                <button onClick={props.closeModal} className={styles.buttonAlt}>Close</button>
-                <button onClick={orderSubmitHandler} className={styles.button}>Order</button>
-            </div>
-
+            {isCheckout && <Checkout onCancel={props.closeModal}/>}
+            {!isCheckout && modalActions}
         </>
     );
 };
