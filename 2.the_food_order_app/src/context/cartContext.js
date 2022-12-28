@@ -6,13 +6,18 @@ const CartActionsContext = createContext();
 export const CartProvider = (props) => {
     const [cart, setCart] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [httpError, setHttpError] = useState();
 
     useEffect(() => {
         const fetchMeals = async () => {
             setIsLoading(true);
-            const meals = await fetch(process.env.REACT_APP_URL);
-            const data = await meals.json();
+            const response = await fetch(process.env.REACT_APP_URL);
 
+            if (!response.ok) {
+                throw new Error('Something is wrong');
+            }
+
+            const data = await response.json();
             const loadedMeals = [];
 
             for (let key in data) {
@@ -29,7 +34,10 @@ export const CartProvider = (props) => {
             setIsLoading(false);
         }
 
-        fetchMeals();
+        fetchMeals().catch(error => {
+            setIsLoading(false);
+            setHttpError(error.message)
+        });
     }, []);
 
 
@@ -57,7 +65,7 @@ export const CartProvider = (props) => {
         setCart(prev => removeFn(prev));
     };
 
-    const values = {cart, isLoading}
+    const values = {cart, isLoading, httpError}
     const actions = useMemo(() => {
         return {
             addCartItem, removeCartItem

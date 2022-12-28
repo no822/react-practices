@@ -25,6 +25,13 @@
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+.error {
+    color: red;
+    font-style: italic;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
 .empty {
     color: black;
     font-style: italic;
