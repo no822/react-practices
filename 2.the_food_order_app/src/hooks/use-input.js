@@ -8,8 +8,9 @@ const useInput = (validation) => {
     const inputValid = !validation(input);
     const hasError = !inputValid && isTouch;
 
-    const onBlurHandler = event => {
-        setIsTouch(true);
+    const touched = () => setIsTouch(true);
+    const onBlurHandler = () => {
+        touched();
     };
 
     const onChangeHandler = event => {
@@ -28,6 +29,7 @@ const useInput = (validation) => {
         onBlurHandler,
         hasError,
         reset,
+        touched,
     };
 }
 

@@ -9,6 +9,9 @@ const CartItem = (props) => {
 
     const removeSingleItem = () => {
         props.onRemove(props.id);
+        if (props.totalPrice === props.price) {
+            props.resetCheckout();
+        }
     }
 
     return (

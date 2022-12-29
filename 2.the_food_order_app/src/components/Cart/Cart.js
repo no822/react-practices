@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useMemo} from 'react';
 import styles from './Cart.module.css';
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
@@ -6,21 +6,21 @@ import Checkout from "./Checkout";
 const Cart = (props) => {
     const [isCheckout, setIsCheckout] = useState(false);
 
-    const hasItem = props.carts.length !== 0;
+    const hasItem = props.cart.length !== 0;
 
     const orderHandler = () => {
-        console.log('order');
         setIsCheckout(true);
     }
 
-    const totalPriceCalculator = (carts) => {
-        return carts
+    const resetIsCheckout = () => setIsCheckout(false);
+
+    const totalPriceCalculator = (cart) => {
+        return cart
             .map(item => item.amount * item.price)
             .reduce((total, price) => {
                 return parseFloat((total + price).toFixed(2));
             }, 0);
     }
-
 
     const modalActions = (
         <div className={styles.actions}>
@@ -29,10 +29,12 @@ const Cart = (props) => {
         </div>
     );
 
+    const total = useMemo(() => totalPriceCalculator(props.cart), [props.cart]);
+
     return (
         <>
             <div className={styles.cartItems}>
-                {props.carts.map(item =>
+                {props.cart.map(item =>
                     <CartItem
                         key={item.id}
                         id={item.id}
@@ -41,15 +43,19 @@ const Cart = (props) => {
                         price={item.price}
                         onRemove={props.removeItem}
                         onAdd={props.addItem}
+                        totalPrice={total}
+                        resetCheckout={resetIsCheckout}
                     />
                 )}
             </div>
             <div className={styles.total}>
                 <div>Total Amount</div>
-                <div>{totalPriceCalculator(props.carts)}</div>
+                <div>{total}</div>
             </div>
-            {isCheckout && <Checkout onCancel={props.closeModal}/>}
-            {!isCheckout && modalActions}
+            {isCheckout
+                && <Checkout cart={props.cart} onCancel={props.closeModal}/>}
+            {!isCheckout
+                && modalActions}
         </>
     );
 };

@@ -6,7 +6,7 @@ import Modal from "../UI/Modal";
 import Cart from "../Cart/Cart";
 import {useCartValue, useCartAction} from "../../context/cartContext";
 
-const Header = (props) => {
+const Header = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
     const {cart: mealItems} = useCartValue();
     const {addCartItem, removeCartItem} = useCartAction();
@@ -31,7 +31,7 @@ const Header = (props) => {
             {isOpenModal &&
                 <Modal closeModal={closeModal}>
                     <Cart
-                        carts={cartItems}
+                        cart={cartItems}
                         closeModal={closeModal}
                         addItem={addCartItem}
                         removeItem={removeCartItem}

@@ -11,6 +11,7 @@ const isInvalidPostal = postalCode => {
     const num = parseFloat(postalCode);
     if (typeof num !== "number") return true;
     if (!Number.isInteger(num)) return true;
+    if (isNaN(Number(postalCode))) return true;
     if (postalCode.trim().length !== 5) return true;
     if (postalCode.trim().length === 5) {
         return false;
@@ -24,7 +25,8 @@ const Checkout = props => {
         onChangeHandler: nameChangeHandler,
         onBlurHandler: nameBlurHandler,
         hasError: hasNameError,
-        reset: resetName
+        reset: resetName,
+        touched: nameTouched
     } = useInput(isEmpty);
 
     const {
@@ -33,7 +35,8 @@ const Checkout = props => {
         onChangeHandler: streetChangeHandler,
         onBlurHandler: streetBlurHandler,
         hasError: hasStreetError,
-        reset: resetStreet
+        reset: resetStreet,
+        touched: streetTouched
     } = useInput(isEmpty);
 
     const {
@@ -42,7 +45,8 @@ const Checkout = props => {
         onChangeHandler: postalChangeHandler,
         onBlurHandler: postalBlurHandler,
         hasError: hasPostalError,
-        reset: resetPostal
+        reset: resetPostal,
+        touched: postalTouched
     } = useInput(isInvalidPostal);
 
     const {
@@ -51,18 +55,23 @@ const Checkout = props => {
         onChangeHandler: cityChangeHandler,
         onBlurHandler: cityBlurHandler,
         hasError: hasCityError,
-        reset: resetCity
+        reset: resetCity,
+        touched: cityTouched
     } = useInput(isEmpty);
 
     const onConfirmHandler = (e) => {
         e.preventDefault();
 
+        nameTouched();
+        streetTouched();
+        postalTouched();
+        cityTouched();
+
         if (!isValidName || !isValidStreet || !isValidPostal || !isValidCity) {
-            console.log('invalid submit');
             return;
         }
 
-        console.log('confirm!!');
+        console.log('confirm!!', props.cart);
 
         resetName();
         resetStreet();
