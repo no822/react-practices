@@ -5,10 +5,10 @@ import MealItem from "./MealItem";
 import {useCartValue} from "../../context/cartContext";
 
 const AvailableMeals = () => {
-    const {cart, isLoading, httpError} = useCartValue();
+    const {mealItems, isLoading, httpError} = useCartValue();
     if (isLoading) return <div className={styles.loading}>Loading...</div>;
     if (httpError) return <div className={styles.error}>{httpError}</div>
-    if (cart.length === 0) {
+    if (mealItems.length === 0) {
         return (
             <Card style={{margin: '2rem auto', maxWidth: '90%'}}>
                 <div className={styles.empty}>Item list is empty</div>
@@ -18,7 +18,7 @@ const AvailableMeals = () => {
     return (
         <div className={styles.meals}>
             <Card>
-                {cart.map(meal =>
+                {mealItems.map(meal =>
                     <MealItem
                         key={meal.id}
                         id={meal.id}

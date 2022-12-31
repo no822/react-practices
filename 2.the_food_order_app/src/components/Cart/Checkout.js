@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './Checkout.module.css';
 import useInput from "../../hooks/use-input";
-
 // name: 빈값인지 체크
 // street: 빈값인지 체크
 // postal: 5자리 정수인지 체크
@@ -67,17 +66,17 @@ const Checkout = props => {
         postalTouched();
         cityTouched();
 
-        if (!isValidName || !isValidStreet || !isValidPostal || !isValidCity) {
-            return;
-        }
+        if (!isValidName || !isValidStreet || !isValidPostal || !isValidCity) return;
 
-        console.log('confirm!!', props.cart);
+        const user = {name, street, postal, city};
+
+        props.onOrder(user);
 
         resetName();
         resetStreet();
         resetPostal();
         resetCity();
-    }
+    };
 
     const nameClasses = hasNameError ? `${styles.control} ${styles.invalid}` : styles.control;
     const streetClasses = hasStreetError ? `${styles.control} ${styles.invalid}` : styles.control;
@@ -85,7 +84,7 @@ const Checkout = props => {
     const cityClasses = hasCityError ? `${styles.control} ${styles.invalid}` : styles.control;
 
     return (
-        <form onSubmit={onConfirmHandler}>
+        <form className={styles.form} onSubmit={onConfirmHandler}>
             <div className={nameClasses}>
                 <label htmlFor="name">Name</label>
                 <input

@@ -5,6 +5,7 @@ const CartActionsContext = createContext();
 
 export const CartProvider = (props) => {
     const [cart, setCart] = useState([]);
+    const [mealItems, setMealItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [httpError, setHttpError] = useState();
 
@@ -30,25 +31,40 @@ export const CartProvider = (props) => {
                     amount: 0
                 })
             }
-            setCart(loadedMeals);
+            setMealItems(loadedMeals);
             setIsLoading(false);
         }
 
         fetchMeals().catch(error => {
             setIsLoading(false);
-            setHttpError(error.message)
+            setHttpError(error.message);
         });
     }, []);
 
 
     const addCartItem = (id, addedAmount) => {
-        const addFn = (prevCart) =>
-            prevCart.map(item => (item.id === id)
-                ? {...item, amount: item.amount + addedAmount}
-                : item
-            );
-
-        setCart(prev => addFn(prev));
+        const item = mealItems.filter(item => item.id === id)[0];
+        const isCartItem = cart.filter(cartItem => cartItem.id === item.id).length === 1;
+        if (isCartItem) {
+            const newCart = cart.map(cartItem => {
+                if (cartItem.id === item.id) {
+                    return {...cartItem, amount: cartItem.amount + addedAmount}
+                } else {
+                    return cartItem;
+                }
+            });
+            setCart(newCart);
+        } else {
+            const newItem = {
+                key: id,
+                id: id,
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                amount: 1
+            };
+            setCart([...cart, newItem]);
+        }
     }
 
     const removeCartItem = id => {
@@ -65,12 +81,14 @@ export const CartProvider = (props) => {
         setCart(prev => removeFn(prev));
     };
 
-    const values = {cart, isLoading, httpError}
+    const clearCart = () => setCart([]);
+
+    const values = {cart, mealItems, isLoading, httpError}
     const actions = useMemo(() => {
         return {
-            addCartItem, removeCartItem
+            addCartItem, removeCartItem, clearCart
         }
-    }, []);
+    }, [cart, mealItems]);
 
     return (
         <CartActionsContext.Provider value={actions}>

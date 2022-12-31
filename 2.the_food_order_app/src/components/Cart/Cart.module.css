@@ -2,7 +2,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    max-height: 20rem;
+    max-height: 15rem;
     overflow: auto;
 }
 
@@ -13,6 +13,11 @@
     font-weight: bold;
     font-size: 1.5rem;
     margin: 1rem 0;
+}
+
+.message {
+    font-size: 1.2rem;
+    padding: 0 0 15px 5px;
 }
 
 .actions {

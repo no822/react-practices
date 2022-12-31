@@ -1,41 +1,30 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState} from 'react';
 import styles from './Header.module.css';
 import meals from './meals.jpg'
 import HeaderCartButton from "./HeaderCartButton";
 import Modal from "../UI/Modal";
 import Cart from "../Cart/Cart";
-import {useCartValue, useCartAction} from "../../context/cartContext";
+import {useCartValue} from "../../context/cartContext";
 
 const Header = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const {cart: mealItems} = useCartValue();
-    const {addCartItem, removeCartItem} = useCartAction();
+    const {cart} = useCartValue();
 
-    const openModal = () => {
-        setIsOpenModal(true);
-    }
-
+    const openModal = () => setIsOpenModal(true);
     const closeModal = () => setIsOpenModal(false);
-
-    const cartItems = useMemo(() => mealItems.filter(item => item.amount > 0), [mealItems]);
 
     return (
         <>
             <div className={styles.header}>
                 <h1>ReactMeals</h1>
-                <HeaderCartButton carts={cartItems} openModal={openModal}/>
+                <HeaderCartButton carts={cart} openModal={openModal}/>
             </div>
             <div className={styles.mainImage}>
                 <img src={meals} alt='meals'/>
             </div>
             {isOpenModal &&
                 <Modal closeModal={closeModal}>
-                    <Cart
-                        cart={cartItems}
-                        closeModal={closeModal}
-                        addItem={addCartItem}
-                        removeItem={removeCartItem}
-                    />
+                    <Cart cart={cart} closeModal={closeModal}/>
                 </Modal>
             }
         </>

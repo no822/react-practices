@@ -2,17 +2,38 @@ import React, {useState, useMemo} from 'react';
 import styles from './Cart.module.css';
 import CartItem from "./CartItem";
 import Checkout from "./Checkout";
+import {useCartAction} from "../../context/cartContext";
 
 const Cart = (props) => {
+    const {clearCart, addCartItem, removeCartItem} = useCartAction();
     const [isCheckout, setIsCheckout] = useState(false);
+    const [modalMsg, setModalMsg] = useState("");
 
     const hasItem = props.cart.length !== 0;
 
-    const orderHandler = () => {
-        setIsCheckout(true);
+    const orderClickHandler = () => setIsCheckout(true);
+
+    const submitOrder = (userInfo) => {
+        fetch(process.env.REACT_APP_ORDER, {
+            method: 'POST',
+            body: JSON.stringify({
+                user: userInfo,
+                orders: props.cart
+            }),
+            headers: {'Content-Type': 'application/json'}
+        }).then(() => {
+            clearCart();
+            setModalMsg("상품을 주문하였습니다.");
+        }).catch((e) => {
+            setModalMsg(e.message);
+        })
     }
 
     const resetIsCheckout = () => setIsCheckout(false);
+    const closeModal = () => {
+        props.closeModal();
+        setModalMsg("");
+    };
 
     const totalPriceCalculator = (cart) => {
         return cart
@@ -25,13 +46,13 @@ const Cart = (props) => {
     const modalActions = (
         <div className={styles.actions}>
             <button onClick={props.closeModal} className={styles.buttonAlt}>Close</button>
-            {hasItem && <button onClick={orderHandler} className={styles.button}>Order</button>}
+            {hasItem && <button onClick={orderClickHandler} className={styles.button}>Order</button>}
         </div>
     );
 
     const total = useMemo(() => totalPriceCalculator(props.cart), [props.cart]);
 
-    return (
+    const cart = (
         <>
             <div className={styles.cartItems}>
                 {props.cart.map(item =>
@@ -41,8 +62,8 @@ const Cart = (props) => {
                         name={item.name}
                         amount={item.amount}
                         price={item.price}
-                        onRemove={props.removeItem}
-                        onAdd={props.addItem}
+                        onRemove={removeCartItem}
+                        onAdd={addCartItem}
                         totalPrice={total}
                         resetCheckout={resetIsCheckout}
                     />
@@ -52,11 +73,23 @@ const Cart = (props) => {
                 <div>Total Amount</div>
                 <div>{total}</div>
             </div>
-            {isCheckout
-                && <Checkout cart={props.cart} onCancel={props.closeModal}/>}
-            {!isCheckout
-                && modalActions}
+            {isCheckout && <Checkout onOrder={submitOrder} onCancel={props.closeModal}/>}
+            {!isCheckout && modalActions}
         </>
+    );
+
+    const messageModal = (
+        <>
+            <h2>알림</h2>
+            <div className={styles.message}>{modalMsg}</div>
+            <div className={styles.actions}>
+                <button onClick={closeModal} className={styles.buttonAlt}>Close</button>
+            </div>
+        </>
+    );
+
+    return (
+        <>{modalMsg.length === 0 ? cart : messageModal}</>
     );
 };
 
