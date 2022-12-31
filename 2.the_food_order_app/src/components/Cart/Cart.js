@@ -29,7 +29,6 @@ const Cart = (props) => {
         })
     }
 
-    const resetIsCheckout = () => setIsCheckout(false);
     const closeModal = () => {
         props.closeModal();
         setModalMsg("");
@@ -41,7 +40,7 @@ const Cart = (props) => {
             .reduce((total, price) => {
                 return parseFloat((total + price).toFixed(2));
             }, 0);
-    }
+    };
 
     const modalActions = (
         <div className={styles.actions}>
@@ -65,7 +64,6 @@ const Cart = (props) => {
                         onRemove={removeCartItem}
                         onAdd={addCartItem}
                         totalPrice={total}
-                        resetCheckout={resetIsCheckout}
                     />
                 )}
             </div>
