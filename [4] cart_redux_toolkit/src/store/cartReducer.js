@@ -19,7 +19,7 @@ const initialCart = {
     isShow: true,
 };
 
-const cartSlice = createSlice( {
+const cartSlice = createSlice({
     name: 'cart',
     initialState: initialCart,
     reducers: {
@@ -50,9 +50,8 @@ const cartSlice = createSlice( {
         },
         removeItem: (state, action) => {
             const newCart = state.cart
-                    .map(item => (item.id === action.payload) ? {...item, quantity: item.quantity - 1} : item)
-                    // 2. 수량이 0이라면 카트에서 해당 상품 제거
-                    .filter(item => item.quantity !== 0);
+                .map(item => (item.id === action.payload) ? {...item, quantity: item.quantity - 1} : item)
+                .filter(item => item.quantity !== 0);
             state.cart = newCart;
         },
         toggleCart: (state) => {
