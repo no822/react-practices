@@ -15,7 +15,7 @@
 
 - react hooks: useEffect, useRef, useReducer
 - portal: 특정 컴포넌트를 실제 dom 렌더링과 다르게 컨트롤
-- contextAPI: 상태를 전역적으로 관리
+- contextAPI: 상태를 전역적으로 관리(추가로 https://velog.io/@velopert/react-context-tutorial 에서 contextAPI를 학습)
 
 ---
 
