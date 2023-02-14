@@ -1,8 +1,14 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, useContext} from 'react';
+import {useHistory} from "react-router-dom";
 
 import classes from './AuthForm.module.css';
+import {AuthContext} from "../../store/auth-context";
+
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const AuthForm = () => {
+  const history = useHistory();
+  const authCtx = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
 
   const emailInputRef = useRef();
@@ -19,9 +25,9 @@ const AuthForm = () => {
 
     let path;
     if (isLogin) {
-      path = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_API_KEY}`;
+      path = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
     } else {
-      path = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_API_KEY}`;
+      path = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
     }
 
     const reqBody = {
@@ -47,8 +53,11 @@ const AuthForm = () => {
         })
         .then(data => {
           const {idToken, expiresIn} = data;
-          console.log('token :', idToken)
-          console.log('expiresIn :', expiresIn)
+          const expireTime = new Date(
+              new Date().getTime() + +expiresIn * 1000
+          );
+          authCtx.loginHandler(idToken, expireTime.toISOString());
+          history.replace('/');
         })
         .catch(err => {
           alert(err.message);
